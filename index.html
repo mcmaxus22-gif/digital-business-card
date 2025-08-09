@@ -562,7 +562,36 @@
         createFloatingParticles();
         
         // vCard Download Funktion
+        function downloadVCard() {
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Maximilian McMillan-Merstik
+N:McMillan-Merstik;Maximilian;;
+ORG:endianSoft GmbH
+TITLE:IT Talent Partner
+TEL;TYPE=CELL:+4319289486
+EMAIL:maximilian.mcmillan@endiansoft.at
+ADR;TYPE=WORK:;;Kolonitzgasse 10/4; Wien;;1030;Österreich
+URL:https://www.endiansoft.at/
+END:VCARD`;
 
+            const blob = new Blob([vCardData], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Maximilian_McMillan-Merstik_Kontakt.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            
+            // Erfolgsbenachrichtigung anzeigen
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
     </script>
 </body>
 </html>
