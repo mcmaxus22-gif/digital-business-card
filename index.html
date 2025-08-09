@@ -15,12 +15,10 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0a0a0a;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
-            overflow: hidden;
             position: relative;
+            overflow-x: hidden;
+            overflow-y: auto; /* Wichtig für mobiles Scrolling */
         }
 
         #network-canvas {
@@ -31,6 +29,7 @@
             height: 100%;
             z-index: -1;
             opacity: 0.8;
+            pointer-events: none; /* Verhindert Touch-Interferenz */
         }
 
         .floating-particles {
@@ -58,6 +57,41 @@
             50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
         }
 
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: calc(100vh - 40px);
+            justify-content: center;
+        }
+
+        .save-button-top {
+            background: linear-gradient(135deg, #2896FC, #6B68EE, #B534DF, #E414D5);
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 10px 25px rgba(40, 150, 252, 0.4),
+                0 0 0 1px rgba(228, 20, 213, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 280px;
+            touch-action: manipulation; /* Verbessert Touch-Verhalten */
+        }
+
         .card {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
@@ -66,13 +100,11 @@
                 0 25px 50px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(40, 150, 252, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            padding: 45px;
-            max-width: 420px;
+            padding: 35px;
             width: 100%;
             text-align: center;
             border: 1px solid rgba(40, 150, 252, 0.2);
             position: relative;
-            z-index: 10;
             animation: cardGlow 4s ease-in-out infinite;
         }
 
@@ -82,8 +114,8 @@
         }
 
         .profile-image {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2896FC, #6B68EE, #B534DF, #E414D5);
             background-size: 300% 300%;
@@ -91,8 +123,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 52px;
+            margin: 0 auto 25px;
+            font-size: 48px;
             color: white;
             font-weight: bold;
             box-shadow: 
@@ -103,6 +135,12 @@
         }
 
         @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes gradientMove {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -130,10 +168,10 @@
         }
 
         .name {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: #f8fafc;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-shadow: 0 0 20px rgba(40, 150, 252, 0.3);
             animation: textGlow 2s ease-in-out infinite;
         }
@@ -144,27 +182,28 @@
         }
 
         .title {
-            font-size: 18px;
+            font-size: 16px;
             color: #6B68EE;
             font-weight: 500;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             opacity: 0.9;
         }
 
         .contact-info {
             text-align: left;
-            margin-bottom: 35px;
+            margin-bottom: 0;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             padding: 12px 15px;
             border-radius: 12px;
             transition: all 0.3s ease;
             border: 1px solid rgba(40, 150, 252, 0.1);
             background: rgba(40, 150, 252, 0.03);
+            min-height: 50px; /* Größere Touch-Targets für Mobile */
         }
 
         .contact-item:hover {
@@ -175,18 +214,20 @@
         }
 
         .contact-icon {
-            width: 22px;
-            height: 22px;
-            margin-right: 18px;
+            width: 20px;
+            height: 20px;
+            margin-right: 16px;
             color: #2896FC;
             filter: drop-shadow(0 0 5px rgba(40, 150, 252, 0.5));
+            flex-shrink: 0;
         }
 
         .contact-text {
             color: #cbd5e1;
-            font-size: 15px;
+            font-size: 14px;
             text-decoration: none;
             flex: 1;
+            word-break: break-word; /* Verhindert Überlauf auf kleinen Bildschirmen */
         }
 
         .contact-item a {
@@ -200,34 +241,7 @@
             text-shadow: 0 0 10px rgba(228, 20, 213, 0.5);
         }
 
-        .save-button {
-            background: linear-gradient(135deg, #2896FC, #6B68EE, #B534DF, #E414D5);
-            background-size: 200% 200%;
-            animation: gradientMove 3s ease infinite;
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            border-radius: 50px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 10px 25px rgba(40, 150, 252, 0.4),
-                0 0 0 1px rgba(228, 20, 213, 0.3);
-            width: 100%;
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .save-button::before {
+        .save-button-top::before {
             content: '';
             position: absolute;
             top: 0;
@@ -238,43 +252,27 @@
             transition: left 0.5s;
         }
 
-        .save-button:hover::before {
+        .save-button-top:hover::before {
             left: 100%;
         }
 
-        .save-button:hover {
-            transform: translateY(-3px);
+        .save-button-top:hover {
+            transform: translateY(-2px);
             box-shadow: 
                 0 15px 35px rgba(181, 52, 223, 0.6),
                 0 0 30px rgba(228, 20, 213, 0.4);
         }
 
-        .save-button:active {
-            transform: translateY(-1px);
+        .save-button-top:active {
+            transform: translateY(0px);
         }
 
         .powered-by {
-            font-size: 13px;
+            font-size: 12px;
             color: #64748b;
             margin-top: 25px;
             opacity: 0.7;
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                padding: 35px 25px;
-                margin: 10px;
-            }
-            
-            .name {
-                font-size: 28px;
-            }
-            
-            .profile-image {
-                width: 110px;
-                height: 110px;
-                font-size: 44px;
-            }
+            text-align: center;
         }
 
         .success-message {
@@ -286,6 +284,7 @@
             display: none;
             box-shadow: 0 10px 25px rgba(181, 52, 223, 0.3);
             animation: successPulse 0.5s ease;
+            text-align: center;
         }
 
         @keyframes successPulse {
@@ -308,73 +307,142 @@
             0%, 100% { transform: scale(1); opacity: 0.3; }
             50% { transform: scale(1.2); opacity: 0.6; }
         }
+
+        /* Mobile Optimierungen */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                min-height: calc(100vh - 30px);
+            }
+            
+            .card {
+                padding: 25px 20px;
+            }
+            
+            .name {
+                font-size: 24px;
+            }
+            
+            .title {
+                font-size: 15px;
+                margin-bottom: 25px;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+                margin-bottom: 20px;
+            }
+            
+            .contact-item {
+                padding: 14px 12px;
+                margin-bottom: 14px;
+            }
+            
+            .contact-text {
+                font-size: 13px;
+            }
+            
+            .save-button-top {
+                padding: 14px 28px;
+                font-size: 15px;
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .card {
+                padding: 20px 15px;
+            }
+            
+            .name {
+                font-size: 22px;
+            }
+            
+            .contact-text {
+                font-size: 12px;
+            }
+        }
+
+        /* Verhindert Zoom bei Doppeltipp auf iOS */
+        @media (max-width: 768px) {
+            button, a {
+                touch-action: manipulation;
+            }
+        }
     </style>
 </head>
 <body>
     <canvas id="network-canvas"></canvas>
     <div class="floating-particles"></div>
     
-    <div class="card">
-        <div class="tech-accent"></div>
-        
-        <div class="profile-image">
-            <span>AM</span>
-        </div>
-        
-        <h1 class="name">Dr. Alexandra Müller</h1>
-        <p class="title">Geschäftsführerin & Strategieberaterin</p>
-        
-        <div class="contact-info">
-            <div class="contact-item">
-                <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-                </svg>
-                <a href="tel:+4915123456789" class="contact-text">+49 151 234 567 89</a>
-            </div>
-            
-            <div class="contact-item">
-                <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                </svg>
-                <a href="mailto:alexandra.mueller@beispiel.de" class="contact-text">alexandra.mueller@beispiel.de</a>
-            </div>
-            
-            <div class="contact-item">
-                <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="contact-text">Maximilianstraße 42, 80538 München</span>
-            </div>
-            
-            <div class="contact-item">
-                <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.559-.499-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.559.499.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.497-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.148.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
-                </svg>
-                <a href="https://www.alexandra-mueller-consulting.de" class="contact-text" target="_blank">www.alexandra-mueller-consulting.de</a>
-            </div>
-            
-            <div class="contact-item">
-                <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="contact-text">Müller Consulting GmbH</span>
-            </div>
-        </div>
-        
-        <button class="save-button" onclick="downloadVCard()">
+    <div class="container">
+        <button class="save-button-top" onclick="downloadVCard()">
             📱 In Kontakte speichern
         </button>
         
-        <div id="successMessage" class="success-message">
-            ✓ Kontakt erfolgreich heruntergeladen!
+        <div class="card">
+            <div class="tech-accent"></div>
+            
+            <div class="profile-image">
+                <span>AM</span>
+            </div>
+            
+            <h1 class="name">Dr. Alexandra Müller</h1>
+            <p class="title">Geschäftsführerin & Strategieberaterin</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                    <a href="tel:+4915123456789" class="contact-text">+49 151 234 567 89</a>
+                </div>
+                
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
+                    <a href="mailto:alexandra.mueller@beispiel.de" class="contact-text">alexandra.mueller@beispiel.de</a>
+                </div>
+                
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="contact-text">Maximilianstraße 42, 80538 München</span>
+                </div>
+                
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.559-.499-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.559.499.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.497-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.148.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
+                    </svg>
+                    <a href="https://www.alexandra-mueller-consulting.de" class="contact-text" target="_blank">www.alexandra-mueller-consulting.de</a>
+                </div>
+                
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="contact-text">Müller Consulting GmbH</span>
+                </div>
+            </div>
+            
+            <div id="successMessage" class="success-message">
+                ✓ Kontakt erfolgreich heruntergeladen!
+            </div>
+            
+            <p class="powered-by">Digitale Visitenkarte • Powered by Innovation</p>
         </div>
-        
-        <p class="powered-by">Digitale Visitenkarte • Powered by Innovation</p>
     </div>
 
     <script>
-        // Dynamisches Graphennetzwerk
+        // Dynamisches Graphennetzwerk (vereinfacht für bessere Mobile Performance)
         const canvas = document.getElementById('network-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -387,45 +455,31 @@
         window.addEventListener('resize', resizeCanvas);
         
         const nodes = [];
-        const connections = [];
-        const numNodes = 80;
+        const numNodes = window.innerWidth < 768 ? 40 : 80; // Weniger Knoten auf Mobile
         let time = 0;
-        let zoomLevel = 1;
-        let zoomDirection = 1;
         
         // Knoten erstellen
         for (let i = 0; i < numNodes; i++) {
             nodes.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                radius: Math.random() * 3 + 1,
-                opacity: Math.random() * 0.8 + 0.2,
-                pulseOffset: Math.random() * Math.PI * 2,
-                colorPhase: Math.random() * Math.PI * 2
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                radius: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.6 + 0.2,
+                pulseOffset: Math.random() * Math.PI * 2
             });
         }
         
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            time += 0.01;
-            
-            // Zoom-Effekt
-            zoomLevel += zoomDirection * 0.001;
-            if (zoomLevel > 1.3 || zoomLevel < 0.8) {
-                zoomDirection *= -1;
-            }
-            
-            ctx.save();
-            ctx.scale(zoomLevel, zoomLevel);
-            ctx.translate((canvas.width * (1 - zoomLevel)) / (2 * zoomLevel), (canvas.height * (1 - zoomLevel)) / (2 * zoomLevel));
+            time += 0.008;
             
             // Knoten bewegen und zeichnen
             nodes.forEach((node, i) => {
-                node.x += node.vx + Math.sin(time + node.pulseOffset) * 0.2;
-                node.y += node.vy + Math.cos(time + node.pulseOffset) * 0.2;
+                node.x += node.vx + Math.sin(time + node.pulseOffset) * 0.1;
+                node.y += node.vy + Math.cos(time + node.pulseOffset) * 0.1;
                 
                 // Grenzen überprüfen
                 if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
@@ -434,44 +488,11 @@
                 node.x = Math.max(0, Math.min(canvas.width, node.x));
                 node.y = Math.max(0, Math.min(canvas.height, node.y));
                 
-                // Knoten zeichnen mit Farbverlauf
+                // Knoten zeichnen
                 const pulse = Math.sin(time * 2 + node.pulseOffset) * 0.3 + 0.7;
-                const colorTime = time + node.colorPhase;
-                
-                // Farbberechnung basierend auf dem Verlauf
-                let r, g, b;
-                const phase = (Math.sin(colorTime) + 1) / 2; // 0 bis 1
-                
-                if (phase < 0.25) {
-                    // #2896FC zu #6B68EE
-                    const t = phase * 4;
-                    r = Math.round(40 + (107 - 40) * t);
-                    g = Math.round(150 + (104 - 150) * t);
-                    b = Math.round(252 + (238 - 252) * t);
-                } else if (phase < 0.5) {
-                    // #6B68EE zu #B534DF
-                    const t = (phase - 0.25) * 4;
-                    r = Math.round(107 + (181 - 107) * t);
-                    g = Math.round(104 + (52 - 104) * t);
-                    b = Math.round(238 + (223 - 238) * t);
-                } else if (phase < 0.75) {
-                    // #B534DF zu #E414D5
-                    const t = (phase - 0.5) * 4;
-                    r = Math.round(181 + (228 - 181) * t);
-                    g = Math.round(52 + (20 - 52) * t);
-                    b = Math.round(223 + (213 - 223) * t);
-                } else {
-                    // #E414D5 zurück zu #2896FC
-                    const t = (phase - 0.75) * 4;
-                    r = Math.round(228 + (40 - 228) * t);
-                    g = Math.round(20 + (150 - 20) * t);
-                    b = Math.round(213 + (252 - 213) * t);
-                }
-                
-                const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 3);
-                gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${node.opacity * pulse})`);
-                gradient.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${node.opacity * pulse * 0.6})`);
-                gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+                const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 2);
+                gradient.addColorStop(0, `rgba(40, 150, 252, ${node.opacity * pulse})`);
+                gradient.addColorStop(1, `rgba(228, 20, 213, 0)`);
                 
                 ctx.fillStyle = gradient;
                 ctx.beginPath();
@@ -479,22 +500,18 @@
                 ctx.fill();
             });
             
-            // Verbindungen zeichnen
+            // Verbindungen zeichnen (weniger auf Mobile)
+            const maxDistance = window.innerWidth < 768 ? 100 : 150;
             nodes.forEach((node1, i) => {
                 nodes.slice(i + 1).forEach(node2 => {
                     const dx = node1.x - node2.x;
                     const dy = node1.y - node2.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     
-                    if (distance < 150) {
-                        const opacity = (1 - distance / 150) * 0.3;
-                        const gradient = ctx.createLinearGradient(node1.x, node1.y, node2.x, node2.y);
-                        gradient.addColorStop(0, `rgba(40, 150, 252, ${opacity})`);
-                        gradient.addColorStop(0.5, `rgba(107, 104, 238, ${opacity})`);
-                        gradient.addColorStop(1, `rgba(228, 20, 213, ${opacity})`);
-                        
-                        ctx.strokeStyle = gradient;
-                        ctx.lineWidth = 1;
+                    if (distance < maxDistance) {
+                        const opacity = (1 - distance / maxDistance) * 0.2;
+                        ctx.strokeStyle = `rgba(107, 104, 238, ${opacity})`;
+                        ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(node1.x, node1.y);
                         ctx.lineTo(node2.x, node2.y);
@@ -503,16 +520,17 @@
                 });
             });
             
-            ctx.restore();
             requestAnimationFrame(animate);
         }
         
         animate();
         
-        // Schwebende Partikel
+        // Schwebende Partikel (weniger auf Mobile)
         function createFloatingParticles() {
             const particlesContainer = document.querySelector('.floating-particles');
-            for (let i = 0; i < 15; i++) {
+            const particleCount = window.innerWidth < 768 ? 8 : 15;
+            
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
@@ -556,24 +574,6 @@ END:VCARD`;
                 successMessage.style.display = 'none';
             }, 3000);
         }
-        
-        // Maus-Interaktion für Netzwerk
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            
-            nodes.forEach(node => {
-                const dx = mouseX - node.x;
-                const dy = mouseY - node.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 100) {
-                    node.vx += dx * 0.00001;
-                    node.vy += dy * 0.00001;
-                }
-            });
-        });
     </script>
 </body>
 </html>
